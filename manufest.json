@@ -1,0 +1,23 @@
+{
+    "name": "シンプルな電卓アプリ",
+    "short_name": "電卓",
+    "description": "HTML, CSS, JavaScriptで作られたシンプルな電卓アプリです。",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#282c34",
+    "theme_color": "#61afef",
+    "icons": [
+        {
+            "src": "images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait",
+    "prefer_related_applications": false
+}

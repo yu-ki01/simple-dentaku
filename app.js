@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM要素の取得
-    const display = document.getElementById('display');
-    const expressionDisplay = document.getElementById('expression');
-    const resultDisplay = document.getElementById('result');
-    const buttons = document.querySelectorAll('.button');
+    const display = document.getElementById('display'); // ディスプレイ全体
+    const expressionDisplay = document.getElementById('expression'); // 計算式表示部分
+    const resultDisplay = document.getElementById('result'); // 結果表示部分
+    const buttons = document.querySelectorAll('.button'); // すべてのボタン
 
     // 電卓の状態を管理する変数
     let currentInput = '0'; // 現在入力されている数値
@@ -169,8 +169,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 初期表示を更新
-    // HTMLに既に<div id="expression">と<div id="result">が存在するため、
-    // innerHTMLを直接変更する必要はありません。
-    // スクリプトが読み込まれた時点でそれらの要素を取得し、更新すれば十分です。
     updateDisplay();
 });

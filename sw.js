@@ -1,50 +1,51 @@
+// キャッシュ名とキャッシュするファイルのリストを定義
 const CACHE_NAME = 'calculator-v1';
 const urlsToCache = [
-    './', // index.html
+    './', // アプリのルートパス (index.htmlを指すことが多い)
     './index.html',
     './style.css',
-    './script.js',
+    './app.js', // ファイル名をscript.jsからapp.jsに変更
+    './manifest.json', // manifest.jsonもキャッシュ
     './images/icon-192x192.png', // manifest.jsonで指定したアイコン
     './images/icon-512x512.png'  // manifest.jsonで指定したアイコン
 ];
 
-// インストールイベント: キャッシュにファイルを保存
+// インストールイベント: Service Workerがインストールされるときに発生
 self.addEventListener('install', (event) => {
+    // インストール処理が完了するまで待機
     event.waitUntil(
+        // 指定したキャッシュ名でキャッシュを開く
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('Opened cache');
+                console.log('キャッシュを開きました');
+                // キャッシュにすべてのファイルを一括で追加
                 return cache.addAll(urlsToCache);
             })
     );
 });
 
-// フェッチイベント: リクエストを傍受し、キャッシュまたはネットワークから応答
+// フェッチイベント: アプリがリソースを要求するたびに発生
 self.addEventListener('fetch', (event) => {
+    // リクエストに応答
     event.respondWith(
+        // キャッシュにリクエストされたリソースがあるか確認
         caches.match(event.request)
             .then((response) => {
-                // キャッシュにリソースがあればそれを使用
+                // キャッシュにリソースがあれば、それを返す
                 if (response) {
                     return response;
                 }
-                // なければネットワークから取得
+                // キャッシュになければ、ネットワークからリソースを取得
                 return fetch(event.request)
                     .then((networkResponse) => {
-                        // 取得したリソースをキャッシュに追加（任意）
-                        // ここでは常にネットワークから取得し、キャッシュに追加するシンプルな戦略
-                        // return caches.open(CACHE_NAME).then(function(cache) {
-                        //     cache.put(event.request, networkResponse.clone());
-                        //     return networkResponse;
-                        // });
+                        // ネットワークからの応答を返す
                         return networkResponse;
                     })
                     .catch(() => {
-                        // ネットワークエラーの場合のフォールバック
-                        // 例えば、オフラインページを返すなど
-                        // return caches.match('/offline.html');
-                        console.log('Fetch failed for:', event.request.url);
-                        return new Response('<h1>Offline</h1><p>You are offline and this content is not cached.</p>', {
+                        // ネットワークエラーが発生した場合のフォールバック
+                        // 例: オフラインページを返す、またはエラーメッセージを表示
+                        console.log('フェッチに失敗しました:', event.request.url);
+                        return new Response('<h1>オフライン</h1><p>現在オフラインです。このコンテンツはキャッシュされていません。</p>', {
                             headers: { 'Content-Type': 'text/html' }
                         });
                     });
@@ -52,14 +53,16 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-// アクティベートイベント: 古いキャッシュのクリーンアップ
+// アクティベートイベント: Service Workerがアクティブ化されるときに発生
 self.addEventListener('activate', (event) => {
+    // 古いキャッシュをクリーンアップ
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames.map((cacheName) => {
+                    // 現在のキャッシュ名と異なるキャッシュを削除
                     if (cacheName !== CACHE_NAME) {
-                        console.log('Deleting old cache:', cacheName);
+                        console.log('古いキャッシュを削除しています:', cacheName);
                         return caches.delete(cacheName);
                     }
                 })

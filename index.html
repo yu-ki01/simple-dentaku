@@ -4,20 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>シンプルな電卓</title>
+    <!-- CSSファイルをリンク -->
     <link rel="stylesheet" href="style.css">
+    <!-- PWAマニフェストファイルをリンク -->
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div class="calculator">
+        <!-- ディスプレイ部分：計算式と結果を表示 -->
         <div class="display" id="display">
             <div id="expression"></div>
             <div id="result">0</div>
         </div>
+        <!-- ボタン部分 -->
         <div class="buttons">
+            <!-- クリアボタン -->
             <button class="button clear" data-action="clear">C</button>
+            <!-- 演算子ボタン -->
             <button class="button operator" data-action="divide">÷</button>
             <button class="button operator" data-action="multiply">×</button>
+            <!-- バックスペースボタン -->
             <button class="button operator" data-action="backspace">←</button>
 
+            <!-- 数字ボタン -->
             <button class="button number">7</button>
             <button class="button number">8</button>
             <button class="button number">9</button>
@@ -31,12 +40,39 @@
             <button class="button number">1</button>
             <button class="button number">2</button>
             <button class="button number">3</button>
+            <!-- 小数点ボタン -->
             <button class="button decimal">.</button>
 
+            <!-- 0ボタン (2列幅) -->
             <button class="button number zero">0</button>
+            <!-- イコールボタン (2列幅) -->
             <button class="button equals" data-action="equals">=</button>
         </div>
     </div>
-    <script src="script.js"></script>
+    <!-- JavaScriptファイルをリンク -->
+    <script src="app.js"></script>
+    <!-- Service Workerの登録スクリプト -->
+    <script>
+        // ブラウザがService Workerをサポートしているか確認
+        if ('serviceWorker' in navigator) {
+            // ページが完全にロードされた後にService Workerを登録
+            window.addEventListener('load', () => {
+                // 現在のプロトコルがblob:であるかチェック
+                if (window.location.protocol === 'blob:') {
+                    console.warn('警告: Service Workerはblob:プロトコルでは動作しません。HTTPまたはHTTPSサーバーで実行してください。');
+                    return; // Service Workerの登録をスキップ
+                }
+
+                // Service Workerのパスを相対パスで指定
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker がスコープ:', registration.scope, 'で登録されました。');
+                    })
+                    .catch((error) => {
+                        console.error('Service Worker の登録に失敗しました:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

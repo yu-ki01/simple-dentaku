@@ -1,67 +1,68 @@
 body {
+    /* ページ全体を中央揃えにするためのFlexbox設定 */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f0f2f5;
-    font-family: 'Arial', sans-serif;
-    margin: 0;
+    min-height: 100vh; /* ビューポートの高さ全体を使用 */
+    background-color: #f0f2f5; /* 背景色 */
+    font-family: 'Arial', sans-serif; /* フォント設定 */
+    margin: 0; /* デフォルトのマージンを削除 */
 }
 
 .calculator {
-    background-color: #282c34;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: #282c34; /* 電卓の背景色 */
+    border-radius: 10px; /* 角を丸くする */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* 影を追加 */
     width: 320px; /* 電卓全体の幅 */
-    padding: 20px;
+    padding: 20px; /* 内側の余白 */
 }
 
 .display {
-    background-color: #4a4f57;
-    color: #ffffff;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    text-align: right;
+    background-color: #4a4f57; /* ディスプレイの背景色 */
+    color: #ffffff; /* 文字色 */
+    padding: 15px; /* 内側の余白 */
+    border-radius: 5px; /* 角を丸くする */
+    margin-bottom: 20px; /* 下部の余白 */
+    overflow: hidden; /* 内容がはみ出さないように隠す */
+    text-align: right; /* テキストを右揃え */
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
+    flex-direction: column; /* 縦方向に要素を並べる */
+    align-items: flex-end; /* 要素を右端に揃える */
+    justify-content: space-between; /* 要素間にスペースを均等に配置 */
     min-height: 70px; /* 表示領域の最小高さ */
 }
 
 .display #expression {
     font-size: 1.6em; /* 式のフォントサイズ */
-    color: #cccccc;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #cccccc; /* 式の文字色 */
+    white-space: nowrap; /* テキストを折り返さない */
+    overflow: hidden; /* はみ出したテキストを隠す */
+    text-overflow: ellipsis; /* はみ出したテキストを省略記号で表示 */
     height: 1.2em; /* 高さを固定して安定させる */
 }
 
 .display #result {
     font-size: 3.5em; /* 結果のフォントサイズ */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap; /* テキストを折り返さない */
+    overflow: hidden; /* はみ出したテキストを隠す */
+    text-overflow: ellipsis; /* はみ出したテキストを省略記号で表示 */
 }
 
 .buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* 4列のグリッド */
     gap: 12px; /* ボタン間の隙間 */
 }
 
 .button {
     background-color: #61afef; /* 数字ボタンのデフォルト色 */
-    color: #ffffff;
-    border: none;
-    padding: 25px 15px; /* 上下のパディングを増やしてボタンを高く */
+    color: #ffffff; /* ボタンの文字色 */
+    border: none; /* ボーダーなし */
+    padding: 25px 15px; /* 上下左右のパディング */
     font-size: 1.8em; /* ボタンの文字サイズ */
-    border-radius: 8px; /* 角を丸く */
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    border-radius: 8px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインターに */
+    transition: background-color 0.2s ease, transform 0.1s ease; /* ホバー・クリック時のアニメーション */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,7 +70,7 @@ body {
 }
 
 .button:hover {
-    background-color: #52a0da;
+    background-color: #52a0da; /* ホバー時の背景色 */
     transform: translateY(-2px); /* ホバー時に少し上に移動 */
 }
 
@@ -78,7 +79,7 @@ body {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1); /* クリック時の影を小さく */
 }
 
-/* 特殊ボタンの色 */
+/* 特殊ボタンの色設定 */
 .button.clear {
     background-color: #e06c75; /* クリアボタンの色 */
 }
@@ -97,7 +98,7 @@ body {
 
 .button.equals {
     background-color: #98c379; /* イコールボタンの色 */
-    grid-column: span 2; /* イコールボタンを2列に */
+    grid-column: span 2; /* イコールボタンを2列幅にする */
 }
 
 .button.equals:hover {
@@ -105,5 +106,5 @@ body {
 }
 
 .button.zero {
-    grid-column: span 2; /* 0ボタンを2列に */
+    grid-column: span 2; /* 0ボタンを2列幅にする */
 }
